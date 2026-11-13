@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="icon" href="img/studio.jpg">
 <title>Veranda Quest</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" type="image/png" sizes="64x64" href="img/icone-64.png">
+<link rel="apple-touch-icon" href="img/icone-180.png">
 <meta name="description" content="Veranda Quest : le jeu de John, commercial en vérandas, en dessin animé façon années 30. Actualités, cinématiques, personnages, bêta et goodies.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -147,7 +148,7 @@ p{margin:0}
 .niveau:nth-child(3n+1){transform:rotate(-1.2deg)}
 .niveau:nth-child(3n+2){transform:rotate(.8deg)}
 .niveau:nth-child(3n){transform:rotate(-.5deg)}
-.niveau .photo{aspect-ratio:3/4;border:3px solid var(--encre);overflow:hidden;background:var(--papier2)}
+.niveau .photo{aspect-ratio:3/2;border:3px solid var(--encre);overflow:hidden;background:var(--papier2)}
 .niveau .photo img{width:100%;height:100%;object-fit:cover}
 .niveau .num{position:absolute;top:-14px;left:-10px;z-index:1;width:46px;height:46px;border-radius:50%;background:var(--jaune);border:3px solid var(--encre);display:grid;place-items:center;font:400 22px/1 var(--f-titre);padding-top:3px;box-shadow:2px 2px 0 var(--encre)}
 .niveau h3{margin-top:12px;font-size:21px}
@@ -271,22 +272,31 @@ body{margin:0}
 <section class="accueil" id="accueil" aria-roledescription="diaporama" aria-label="Images drôles du jeu">
   <div class="diapos">
     <figure class="diapo active" data-sur="Niveau 6 · Peggy fait des siennes" data-titre="Rendez-nous les frites !" data-texte="Peggy a faim. Peggy court vite. Peggy ne partage pas.">
-      <img src="img/n-piggy.jpg" alt="Peggy la cochonne s'enfuit avec le sac du Big Doubs, poursuivie par John et Mathieu">
+      <img src="img/m-n6.jpg" alt="Peggy, nœud rose, file à travers champs, poursuivie par John et Lucie" style="object-position:70% 50%">
     </figure>
-    <figure class="diapo" data-sur="Niveau 1 · La course au rendez-vous" data-titre="En retard ? Jamais. Enfin… presque." data-texte="Rendez-vous chez Pépé Morbier dans trois minutes. La poubelle n'était pas prévue.">
-      <img src="img/n-parcours.jpg" alt="John saute par-dessus une poubelle renversée dans la rue du village">
+    <figure class="diapo" data-sur="Niveau 1 · La course au rendez-vous" data-titre="En retard ? Jamais. Enfin… presque." data-texte="Rendez-vous chez Pépé Morbier dans trois minutes. La barrière n'était pas prévue. Le chihuahua non plus.">
+      <img src="img/m-n1.jpg" alt="John saute une barrière dans la rue du village, un chihuahua aux trousses" style="object-position:40% 50%">
     </figure>
-    <figure class="diapo" data-sur="Niveau 4 · Le permis introuvable" data-titre="Un tampon. Un seul. C'était trop demander ?" data-texte="À la mairie, les papiers volent plus vite que John.">
-      <img src="img/n-mairie.jpg" alt="John court dans la mairie au milieu des papiers qui volent">
+    <figure class="diapo" data-sur="Niveau 2 · Rallye casse-croûte" data-titre="Le dernier arrivé paie l'addition" data-texte="John contre Mathieu, direction le Big Doubs. La poule n'avait rien demandé.">
+      <img src="img/m-n2.jpg" alt="La voiture de John et le camion de Mathieu font la course, une poule s'envole" style="object-position:60% 50%">
     </figure>
-    <figure class="diapo" data-sur="Niveau 2 · Rallye casse-croûte" data-titre="Le dernier arrivé paie l'addition" data-texte="John et Mathieu, direction le Big Doubs. Lucie compte les points.">
-      <img src="img/n-course-resto.jpg" alt="La voiture de John et le camion de Mathieu sur la ligne de départ">
+    <figure class="diapo" data-sur="Niveau 3 · Bagarre au Big Doubs" data-titre="« C'est pas ce que j'ai commandé ! »" data-texte="Le chef du Big Doubs n'aime pas les réclamations. Les frites volent.">
+      <img src="img/m-n3.jpg" alt="John et Mathieu courent dans le fast-food, le chef les poursuit avec sa louche" style="object-position:55% 50%">
+    </figure>
+    <figure class="diapo" data-sur="Niveau 4 · Le permis introuvable" data-titre="Un tampon. Un seul. C'était trop demander ?" data-texte="À la mairie, les dossiers pèsent lourd et Lucie court vite.">
+      <img src="img/m-n4.jpg" alt="John court avec une pile de classeurs, Lucie lui montre le chemin" style="object-position:70% 50%">
     </figure>
     <figure class="diapo" data-sur="Niveau 5 · Les taupes de Pépé" data-titre="« Pas un seul trou dans ma pelouse ! »" data-texte="Pépé Morbier y tient, à sa pelouse. Les taupes, beaucoup moins.">
-      <img src="img/n-taupes.jpg" alt="John tape les taupes au maillet dans le jardin de Pépé Morbier">
+      <img src="img/m-n5.jpg" alt="John brandit un maillet au milieu des taupes, Mathieu mesure la façade" style="object-position:45% 50%">
     </figure>
-    <figure class="diapo" data-sur="Niveau 3 · Bagarre au Big Doubs" data-titre="Le régime ? Lundi. Promis." data-texte="Burgers, frites, hot-dogs : John et Mathieu ne reculent devant rien.">
-      <img src="img/n-restaurant.jpg" alt="John et Mathieu, le ventre énorme, mangent des burgers au Big Doubs">
+    <figure class="diapo" data-sur="Niveau 7 · Livraison de haut vol" data-titre="Le colis arrive. Par le ciel." data-texte="Les matériaux de la véranda voyagent en avion. Et en parachute.">
+      <img src="img/m-n7.jpg" alt="Un pilote hilare largue une fenêtre en parachute au-dessus des champs" style="object-position:25% 50%">
+    </figure>
+    <figure class="diapo" data-sur="Niveau 8 · La pose et les gamins" data-titre="Attention à la vitre !" data-texte="Poser une véranda, c'est facile. Avec deux gamins et un ballon, beaucoup moins.">
+      <img src="img/m-n8.jpg" alt="John pose la véranda pendant que deux enfants tirent dans un ballon" style="object-position:60% 50%">
+    </figure>
+    <figure class="diapo" data-sur="Niveau 9 · Gaston Ferraille contre-attaque" data-titre="Le boss final ne lâche rien" data-texte="Gaston Ferraille arrache les tuiles. John sort le pistolet à silicone.">
+      <img src="img/m-n9.jpg" alt="Gaston Ferraille arrache le toit, John riposte au pistolet à silicone" style="object-position:70% 50%">
     </figure>
   </div>
   <div class="film" aria-hidden="true"></div>
@@ -323,7 +333,7 @@ body{margin:0}
       </div>
       <div class="colonnes">
         <article class="une">
-          <img src="img/jeu-route.jpg" alt="La route des neuf niveaux de Pépé Morbier dans le jeu">
+          <img src="img/jeu-route2.jpg" style="object-position:50% 12%" alt="La route des neuf niveaux de Pépé Morbier dans le jeu">
           <span class="etiq">À la une</span>
           <h3>Fin de l'alpha : le premier client est bouclé !</h3>
           <p>Les neuf niveaux de Pépé Morbier sont terminés et s'enchaînent avec leurs cinématiques, de la course au rendez-vous jusqu'au retour de Gaston Ferraille. Place à la bêta 0.1.</p>
@@ -383,15 +393,15 @@ body{margin:0}
       </div>
     </div>
     <ol class="niveaux">
-      <li class="niveau encre"><span class="num">1</span><div class="photo"><img src="img/jeu-n1.jpg" alt=""></div><h3>La course au rendez-vous</h3><p>Courir, sauter, et arriver avant le concurrent.</p></li>
-      <li class="niveau encre"><span class="num">2</span><div class="photo"><img src="img/jeu-n2.jpg" alt=""></div><h3>Rallye casse-croûte</h3><p>La voiture de John contre le camion de Mathieu.</p></li>
-      <li class="niveau encre"><span class="num">3</span><div class="photo"><img src="img/jeu-n3.jpg" alt=""></div><h3>Bagarre au Big Doubs</h3><p>Le chef du fast-food n'aime pas qu'on se plaigne.</p></li>
-      <li class="niveau encre"><span class="num">4</span><div class="photo"><img src="img/jeu-n4.jpg" alt=""></div><h3>Le permis introuvable</h3><p>Une mairie, des courants d'air et beaucoup trop de papiers.</p></li>
-      <li class="niveau encre"><span class="num">5</span><div class="photo"><img src="img/jeu-n5.jpg" alt=""></div><h3>Les taupes de Pépé</h3><p>Un maillet, une pelouse, et des taupes qui narguent.</p></li>
-      <li class="niveau encre"><span class="num">6</span><div class="photo"><img src="img/jeu-n6.jpg" alt=""></div><h3>Peggy fait des siennes</h3><p>Rattraper la cochonne avant qu'elle finisse les frites.</p></li>
-      <li class="niveau encre"><span class="num">7</span><div class="photo"><img src="img/jeu-n7.jpg" alt=""></div><h3>Livraison de haut vol</h3><p>Les matériaux arrivent… par la voie des airs.</p></li>
-      <li class="niveau encre"><span class="num">8</span><div class="photo"><img src="img/jeu-n8.jpg" alt=""></div><h3>La pose et les gamins</h3><p>Poser une véranda avec deux voisins très curieux.</p></li>
-      <li class="niveau encre"><span class="num">9</span><div class="photo"><img src="img/jeu-n9.jpg" alt=""></div><h3>Gaston Ferraille contre-attaque</h3><p>Le concurrent revient. Cette fois, c'est le boss final.</p></li>
+      <li class="niveau encre"><span class="num">1</span><div class="photo"><img src="img/m-n1.jpg" alt="" loading="lazy"></div><h3>La course au rendez-vous</h3><p>Courir, sauter, et arriver avant le concurrent.</p></li>
+      <li class="niveau encre"><span class="num">2</span><div class="photo"><img src="img/m-n2.jpg" alt="" loading="lazy"></div><h3>Rallye casse-croûte</h3><p>La voiture de John contre le camion de Mathieu.</p></li>
+      <li class="niveau encre"><span class="num">3</span><div class="photo"><img src="img/m-n3.jpg" alt="" loading="lazy"></div><h3>Bagarre au Big Doubs</h3><p>Le chef du fast-food n'aime pas qu'on se plaigne.</p></li>
+      <li class="niveau encre"><span class="num">4</span><div class="photo"><img src="img/m-n4.jpg" alt="" loading="lazy"></div><h3>Le permis introuvable</h3><p>Une mairie, des courants d'air et beaucoup trop de papiers.</p></li>
+      <li class="niveau encre"><span class="num">5</span><div class="photo"><img src="img/m-n5.jpg" alt="" loading="lazy"></div><h3>Les taupes de Pépé</h3><p>Un maillet, une pelouse, et des taupes qui narguent.</p></li>
+      <li class="niveau encre"><span class="num">6</span><div class="photo"><img src="img/m-n6.jpg" alt="" loading="lazy"></div><h3>Peggy fait des siennes</h3><p>Rattraper la cochonne avant qu'elle finisse les frites.</p></li>
+      <li class="niveau encre"><span class="num">7</span><div class="photo"><img src="img/m-n7.jpg" alt="" loading="lazy"></div><h3>Livraison de haut vol</h3><p>Les matériaux arrivent… par la voie des airs.</p></li>
+      <li class="niveau encre"><span class="num">8</span><div class="photo"><img src="img/m-n8.jpg" alt="" loading="lazy"></div><h3>La pose et les gamins</h3><p>Poser une véranda avec deux voisins très curieux.</p></li>
+      <li class="niveau encre"><span class="num">9</span><div class="photo"><img src="img/m-n9.jpg" alt="" loading="lazy"></div><h3>Gaston Ferraille contre-attaque</h3><p>Le concurrent revient. Cette fois, c'est le boss final.</p></li>
     </ol>
   </div>
 </section>
