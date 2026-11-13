@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" href="img/studio.jpg">
+<title>Veranda Quest</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Veranda Quest : le jeu de John, commercial en vérandas, en dessin animé façon années 30. Actualités, cinématiques, personnages, bêta et goodies.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Alfa+Slab+One&family=Alegreya+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Mise en page : papier ancien + encre noire façon dessin animé des années 30 ; cadres encrés à ombre pleine, bandeaux en ruban, effet vieux film sur l'accueil */
+:root{
+  --papier:#f3e3bf; --papier2:#ead3a3; --carton:#e2c38a;
+  --encre:#2b1d13; --encre-douce:#5a4532;
+  --bleu:#2f5c9c; --jaune:#f4ae24; --orange:#e2711d; --rouge:#c4412a; --vert:#56762a; --rose:#e9879a;
+  --f-titre:"Luckiest Guy","Arial Black",system-ui,sans-serif;
+  --f-label:"Alfa Slab One",Rockwell,Georgia,serif;
+  --f-texte:"Alegreya Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .13 0 0 0 0 .07 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--papier) var(--grain);color:var(--encre);font:400 18px/1.55 var(--f-texte);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--encre)}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px dashed var(--rouge);outline-offset:4px}
+.g{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.l{max-width:1200px;margin-inline:auto}
+.encre{border:3px solid var(--encre);box-shadow:6px 6px 0 var(--encre);background:var(--papier) var(--grain)}
+
+/* --- barre du haut --- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--encre);color:var(--papier);border-bottom:4px solid var(--jaune)}
+.nav .l{display:flex;align-items:center;gap:18px;min-height:60px}
+.nav .marque{font:400 24px/1 var(--f-titre);letter-spacing:.03em;text-decoration:none;white-space:nowrap;padding-top:4px}
+.nav .marque b{color:var(--jaune);font-weight:400}
+.nav ul{display:flex;gap:2px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav ul a{display:block;padding:8px 11px;font:400 14px/1 var(--f-label);letter-spacing:.04em;text-decoration:none;color:var(--papier2)}
+.nav ul a:hover{color:var(--jaune)}
+.nav .jouer{margin-left:auto}
+@media (max-width:900px){.nav ul{display:none}}
+
+/* --- boutons : étiquettes encrées --- */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px 10px;border:3px solid var(--encre);border-radius:14px;background:var(--jaune);color:var(--encre);box-shadow:4px 4px 0 var(--encre);font:400 19px/1 var(--f-titre);letter-spacing:.04em;text-decoration:none;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px) rotate(-1deg);box-shadow:6px 6px 0 var(--encre)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--encre)}
+.btn.creme{background:var(--papier)}
+.btn.bleu{background:var(--bleu);color:var(--papier)}
+.btn.petit{font-size:15px;padding:9px 14px 7px;border-radius:10px}
+.btn[aria-disabled="true"]{background:var(--papier2);color:var(--encre-douce);cursor:default;box-shadow:3px 3px 0 var(--encre-douce);border-color:var(--encre-douce)}
+.btn[aria-disabled="true"]:hover{transform:none}
+.nav .btn{box-shadow:3px 3px 0 var(--jaune);border-color:var(--papier);font-size:16px;padding:9px 16px 7px}
+
+/* --- accueil : diaporama façon vieux film --- */
+.accueil{position:relative;background:var(--encre);overflow:hidden;border-bottom:4px solid var(--encre)}
+.diapos{position:relative;aspect-ratio:3/2;max-height:88vh;width:100%;max-width:100%;margin-inline:auto}
+.diapo{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .7s steps(6)}
+.diapo.active{opacity:1}
+.diapo img{width:100%;height:100%;object-fit:cover}
+.diapo.active img{animation:zoom 8s ease-out both}
+@keyframes zoom{from{transform:scale(1.07)}to{transform:scale(1)}}
+.film{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(43,29,19,.55) 100%),var(--grain);mix-blend-mode:multiply;animation:scintille .18s steps(2) infinite}
+.film::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0 31%,rgba(43,29,19,.18) 31.1%,transparent 31.3%,transparent 72%,rgba(255,240,210,.25) 72.1%,transparent 72.25%);animation:rayures 1.4s steps(5) infinite}
+@keyframes scintille{50%{opacity:.86}}
+@keyframes rayures{0%{transform:translateX(0)}50%{transform:translateX(-14%)}100%{transform:translateX(9%)}}
+.accueil .logo{position:absolute;top:clamp(10px,2vw,30px);right:max(clamp(10px,2.4vw,36px),env(safe-area-inset-right,0px));width:clamp(150px,28vw,430px);filter:drop-shadow(5px 6px 0 rgba(43,29,19,.55));animation:bouge 1.2s steps(3) infinite;transform-origin:50% 60%}
+@keyframes bouge{0%{transform:rotate(-1.2deg)}33%{transform:rotate(.6deg) translateY(-2px)}66%{transform:rotate(1.1deg)}}
+.legende-zone{position:absolute;left:0;right:0;bottom:clamp(14px,3.5vw,44px)}
+.legende-zone .l{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
+.legende{min-width:0;max-width:min(560px,100%);padding:16px 20px 14px;transform:rotate(-1.5deg)}
+.legende small{display:inline-block;font:400 13px/1 var(--f-label);letter-spacing:.06em;background:var(--rouge);color:var(--papier);padding:6px 10px 5px;border:2px solid var(--encre);margin-bottom:8px;text-transform:uppercase}
+.legende h1{margin:0;font:400 clamp(24px,3.6vw,44px)/1.05 var(--f-titre);text-wrap:balance}
+.legende p{margin:6px 0 0;font-style:italic;color:var(--encre-douce)}
+.points{display:flex;gap:7px;margin-top:12px}
+.points button{width:16px;height:16px;border-radius:50%;border:2px solid var(--encre);padding:0;background:var(--papier);cursor:pointer}
+.points button[aria-current="true"]{background:var(--rouge)}
+.accueil .actions{display:flex;flex-wrap:wrap;gap:12px}
+.fleche{position:absolute;top:50%;width:52px;height:52px;margin-top:-26px;border:3px solid var(--encre);border-radius:50%;background:var(--papier);color:var(--encre);font:400 26px/1 var(--f-titre);cursor:pointer;box-shadow:3px 3px 0 var(--encre)}
+.fleche.g{left:max(12px,env(safe-area-inset-left,0px))}
+.fleche.d{right:max(12px,env(safe-area-inset-right,0px))}
+@media (max-width:700px){
+  .diapos{aspect-ratio:4/5;max-height:none}
+  .fleche{display:none}
+  .legende-zone{position:static;background:var(--encre);padding-block:14px 18px}
+  .legende{transform:none}
+}
+
+/* --- ruban défilant --- */
+.ruban{background:var(--jaune);border-block:3px solid var(--encre);overflow:hidden;white-space:nowrap;font:400 20px/1 var(--f-titre);letter-spacing:.04em;padding-block:12px 9px}
+.ruban div{display:inline-block;animation:defile 40s linear infinite}
+.ruban span{padding-inline:20px}
+.ruban span::after{content:"★";margin-left:40px;color:var(--rouge)}
+@keyframes defile{to{transform:translateX(-50%)}}
+
+/* --- sections --- */
+section.bloc{padding-block:clamp(56px,8vw,100px)}
+.entete{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 28px;margin-bottom:36px}
+.banniere{display:inline-block;position:relative;z-index:0;margin:0 0 14px 12px;padding:7px 26px 5px;background:var(--rouge);color:var(--papier);border:3px solid var(--encre);font:400 15px/1 var(--f-label);letter-spacing:.06em;text-transform:uppercase}
+.banniere::before,.banniere::after{content:"";position:absolute;top:6px;width:18px;height:100%;background:#9b3120;z-index:-1}
+.banniere::before{left:-15px;clip-path:polygon(0 0,100% 0,100% 100%,0 100%,45% 50%)}
+.banniere::after{right:-15px;clip-path:polygon(0 0,100% 0,55% 50%,100% 100%,0 100%)}
+h2{margin:0;font:400 clamp(38px,6vw,68px)/.95 var(--f-titre);letter-spacing:.01em;text-wrap:balance;color:var(--encre);text-shadow:3px 3px 0 var(--jaune)}
+h3{margin:0;font:400 23px/1.1 var(--f-titre);letter-spacing:.02em;text-wrap:balance}
+p{margin:0}
+.chapo{max-width:56ch;color:var(--encre-douce);font-size:19px}
+
+/* --- la gazette (actus) --- */
+.gazette{padding:clamp(18px,3vw,34px);transform:rotate(-.4deg)}
+.gazette .titre-journal{text-align:center;border-bottom:3px double var(--encre);padding-bottom:12px;margin-bottom:20px}
+.gazette .titre-journal strong{display:block;font:400 clamp(28px,5.4vw,60px)/1 var(--f-label);letter-spacing:.02em}
+.gazette .titre-journal span{font:italic 400 15px/1.4 var(--f-texte);color:var(--encre-douce)}
+.colonnes{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);gap:22px}
+.colonnes article{display:flex;flex-direction:column;gap:9px;min-width:0}
+.colonnes article + article{border-left:2px solid var(--encre);padding-left:22px}
+.colonnes img{border:3px solid var(--encre);aspect-ratio:3/2;object-fit:cover;width:100%;filter:sepia(.25)}
+.colonnes .etiq{font:400 13px/1 var(--f-label);letter-spacing:.05em;text-transform:uppercase;color:var(--rouge)}
+.colonnes h3{font:400 24px/1.08 var(--f-label)}
+.colonnes .une h3{font-size:clamp(26px,3vw,34px)}
+.colonnes p{font-size:17px;color:var(--encre-douce)}
+@media (max-width:860px){.colonnes{grid-template-columns:1fr}.colonnes article + article{border-left:0;padding-left:0;border-top:2px solid var(--encre);padding-top:18px}}
+
+/* --- cinématiques --- */
+.cines{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,3vw,36px)}
+.cine{display:flex;flex-direction:column;gap:10px;min-width:0;margin:0}
+.cine .ecran{border:4px solid var(--encre);border-radius:26px;background:var(--encre);padding:10px;box-shadow:6px 6px 0 var(--encre)}
+.cine video{display:block;width:100%;aspect-ratio:9/16;border-radius:16px;background:#000}
+.cine:nth-child(1){transform:rotate(-1.5deg)}
+.cine:nth-child(3){transform:rotate(1.5deg)}
+.cine b{margin-top:6px;font:400 14px/1 var(--f-label);letter-spacing:.05em;text-transform:uppercase;color:var(--rouge)}
+@media (max-width:760px){.cines{grid-template-columns:repeat(3,minmax(220px,1fr));overflow-x:auto;padding:4px 12px 16px;scroll-snap-type:x mandatory}.cine{scroll-snap-align:center}}
+
+/* --- client 1 et niveaux --- */
+.fond-carton{background:var(--carton) var(--grain);border-block:4px solid var(--encre)}
+.client{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:center;margin-bottom:48px}
+.client .portrait{padding:10px;transform:rotate(-2deg)}
+.client .portrait img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top}
+.client .fiche small{font:400 14px/1 var(--f-label);letter-spacing:.06em;text-transform:uppercase;color:var(--rouge)}
+.client .fiche h3{font-size:clamp(32px,4.4vw,52px);margin:6px 0 10px}
+.client .fiche p{max-width:56ch;color:var(--encre-douce)}
+@media (max-width:640px){.client{grid-template-columns:1fr}.client .portrait{max-width:200px}}
+.niveaux{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 24px;list-style:none;margin:0;padding:0}
+.niveau{position:relative;padding:10px 10px 16px;min-width:0}
+.niveau:nth-child(3n+1){transform:rotate(-1.2deg)}
+.niveau:nth-child(3n+2){transform:rotate(.8deg)}
+.niveau:nth-child(3n){transform:rotate(-.5deg)}
+.niveau .photo{aspect-ratio:3/4;border:3px solid var(--encre);overflow:hidden;background:var(--papier2)}
+.niveau .photo img{width:100%;height:100%;object-fit:cover}
+.niveau .num{position:absolute;top:-14px;left:-10px;z-index:1;width:46px;height:46px;border-radius:50%;background:var(--jaune);border:3px solid var(--encre);display:grid;place-items:center;font:400 22px/1 var(--f-titre);padding-top:3px;box-shadow:2px 2px 0 var(--encre)}
+.niveau h3{margin-top:12px;font-size:21px}
+.niveau p{font-size:16px;color:var(--encre-douce);margin-top:4px}
+.niveau.mystere .photo{display:grid;place-items:center;background:repeating-linear-gradient(45deg,var(--papier2) 0 12px,var(--carton) 12px 24px)}
+.niveau.mystere .photo span{font:400 clamp(20px,2.4vw,30px)/1 var(--f-label);color:var(--rouge);border:4px solid var(--rouge);padding:10px 16px 8px;transform:rotate(-12deg);background:var(--papier)}
+.niveau.boss .photo{background:#d9c3e6}
+.niveau.boss .photo img{object-fit:cover;object-position:50% 6%;mix-blend-mode:multiply}
+@media (max-width:860px){.niveaux{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.niveaux{grid-template-columns:1fr}}
+
+/* --- personnages --- */
+.troupe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 22px}
+.perso{display:flex;flex-direction:column;min-width:0;padding:12px 12px 18px}
+.perso:nth-child(odd){transform:rotate(-1deg)}
+.perso:nth-child(even){transform:rotate(1deg)}
+.perso .cadre-img{aspect-ratio:3/4;display:grid;place-items:end center;overflow:hidden;border:3px solid var(--encre);background:var(--papier2) var(--grain)}
+.perso .cadre-img img{width:100%;height:100%;object-fit:cover;object-position:50% 15%}
+.perso .role{margin-top:12px;font:400 13px/1 var(--f-label);letter-spacing:.05em;text-transform:uppercase;color:var(--rouge)}
+.perso h3{font-size:30px;margin-top:4px}
+.perso p{font-size:16px;color:var(--encre-douce);margin-top:4px}
+.perso.mechant .cadre-img{background-color:#d9c3e6}
+.perso.texte{justify-content:center;text-align:center;gap:10px}
+.perso.texte .role{margin:0}
+@media (max-width:1000px){.troupe{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* --- jouer --- */
+.plateformes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:24px}
+.plateforme{padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.plateforme .tampon{align-self:flex-start;font:400 13px/1 var(--f-label);letter-spacing:.05em;text-transform:uppercase;padding:7px 10px 5px;border:3px solid currentColor;transform:rotate(-4deg);color:var(--encre-douce)}
+.plateforme .tampon.vif{color:var(--vert)}
+.plateforme p{color:var(--encre-douce);font-size:17px;flex:1}
+.plateforme svg{width:44px;height:44px;fill:none;stroke:var(--encre);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* --- goodies --- */
+.boutique{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:26px}
+.objet{display:flex;flex-direction:column;min-width:0;padding:12px 12px 18px}
+.objet:nth-child(odd){transform:rotate(.8deg)}
+.objet .vitrine{aspect-ratio:1;display:grid;place-items:center;border:3px solid var(--encre);background:radial-gradient(circle at 50% 45%,var(--papier),var(--papier2) 70%)}
+.objet .vitrine svg{width:62%;height:62%}
+.objet .vitrine img{width:100%;height:100%;object-fit:cover}
+.objet h3{margin-top:12px;font-size:21px}
+.objet p{color:var(--encre-douce);font-size:16px;margin-top:4px;flex:1}
+.objet .bas{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.objet .bas span{font:400 13px/1 var(--f-label);text-transform:uppercase;color:var(--rouge)}
+
+/* --- inscription --- */
+.inscription{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);overflow:hidden}
+.inscription img{width:100%;height:100%;max-height:440px;object-fit:cover;min-height:260px;border-right:3px solid var(--encre)}
+.inscription .corps{padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:14px;min-width:0}
+.inscription form{display:flex;flex-wrap:wrap;gap:10px}
+.inscription input{flex:1 1 200px;min-width:0;padding:12px 14px;border:3px solid var(--encre);border-radius:10px;background:#fff8e8;color:var(--encre);font:400 18px var(--f-texte)}
+.inscription .reponse{font:400 15px/1.4 var(--f-label);color:var(--vert)}
+@media (max-width:760px){.inscription{grid-template-columns:1fr}.inscription img{border-right:0;border-bottom:3px solid var(--encre)}}
+
+footer{background:var(--encre);color:var(--papier2);padding-block:34px;font-size:15px}
+footer .l{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px}
+footer .studio{display:flex;align-items:center;gap:14px}
+footer .studio img{width:110px;height:auto;mix-blend-mode:screen}
+footer nav{display:flex;flex-wrap:wrap;gap:6px 20px;font:400 14px/1 var(--f-label)}
+footer nav a{text-decoration:none}
+footer nav a:hover{color:var(--jaune)}
+.cache{position:absolute;left:-9999px}
+
+/* --- télécharger + notice --- */
+.installer{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:clamp(22px,4vw,44px);align-items:start}
+.lancer{padding:14px;display:flex;flex-direction:column;gap:14px;transform:rotate(-1.2deg)}
+.lancer img{border:3px solid var(--encre);border-radius:18px;width:100%;aspect-ratio:9/16;object-fit:cover;object-position:top}
+.lancer .corps{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:0 6px 8px}
+.lancer h3{font-size:30px}
+.lancer p,.lancer small{color:var(--encre-douce)}
+.lancer small{font-size:14px;font-style:italic}
+.tampon{align-self:flex-start;font:400 13px/1 var(--f-label);letter-spacing:.05em;text-transform:uppercase;padding:7px 10px 5px;border:3px solid currentColor;transform:rotate(-4deg);color:var(--encre-douce)}
+.tampon.vif{color:var(--vert)}
+.notice{padding:clamp(18px,3vw,30px);display:flex;flex-direction:column;gap:20px;min-width:0}
+.onglets{display:flex;gap:10px;flex-wrap:wrap}
+.onglets button{font:400 20px/1 var(--f-titre);padding:11px 20px 8px;border:3px solid var(--encre);border-radius:12px;background:var(--papier2);color:var(--encre);cursor:pointer;box-shadow:3px 3px 0 var(--encre)}
+.onglets button[aria-selected="true"]{background:var(--jaune);transform:rotate(-2deg)}
+.etapes{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:e}
+.etapes li{display:grid;grid-template-columns:48px minmax(0,1fr);column-gap:14px;counter-increment:e;align-items:start}
+.etapes li::before{content:counter(e);grid-row:span 2;width:44px;height:44px;border-radius:50%;border:3px solid var(--encre);background:var(--bleu);color:var(--papier);display:grid;place-items:center;font:400 22px/1 var(--f-titre);padding-top:3px;box-shadow:2px 2px 0 var(--encre)}
+.etapes b{font:400 20px/1.2 var(--f-label);padding-top:6px}
+.etapes span{color:var(--encre-douce);font-size:17px}
+.astuces{margin:0;padding:14px 18px 14px 34px;border:2px dashed var(--encre-douce);border-radius:10px;color:var(--encre-douce);font-size:16px;display:grid;gap:4px}
+.bientot{font:400 15px/1.3 var(--f-label);color:var(--rouge)}
+@media (max-width:760px){.installer{grid-template-columns:1fr}.lancer{max-width:340px}}
+
+/* --- frise --- */
+.frise{list-style:none;margin:0;padding:0 0 0 8px;position:relative;counter-reset:f;display:grid;gap:22px;max-width:820px}
+.frise::before{content:"";position:absolute;left:31px;top:10px;bottom:10px;border-left:4px dashed var(--encre)}
+.frise li{position:relative;counter-increment:f;padding:14px 18px 14px 82px;min-height:58px}
+.frise li::before{content:counter(f);position:absolute;left:0;top:6px;width:52px;height:52px;border-radius:50%;background:var(--papier);border:3px solid var(--encre);display:grid;place-items:center;font:400 24px/1 var(--f-titre);padding-top:3px;box-shadow:3px 3px 0 var(--encre)}
+.frise li.cle::before{background:var(--jaune)}
+.frise li.cle{background:var(--papier2);border:3px solid var(--encre);box-shadow:5px 5px 0 var(--encre);border-radius:6px;margin-left:-4px}
+.frise li.cle::before{left:4px}
+.frise h3{font-size:24px}
+.frise p{color:var(--encre-douce);margin-top:4px;max-width:60ch}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+body{margin:0}
+</style>
+</head>
+<body>
+
+<header class="nav g">
+  <div class="l">
+    <a class="marque" href="#accueil">VERANDA <b>QUEST</b></a>
+    <ul>
+      <li><a href="#gazette">La Gazette</a></li>
+      <li><a href="#cinematiques">Cinématiques</a></li>
+      <li><a href="#niveaux">Les niveaux</a></li>
+      <li><a href="#personnages">La troupe</a></li>
+      <li><a href="#histoire">L'histoire</a></li>
+      <li><a href="#goodies">Goodies</a></li>
+    </ul>
+    <a class="btn jouer" href="#jouer">Télécharger</a>
+  </div>
+</header>
+
+<main>
+<section class="accueil" id="accueil" aria-roledescription="diaporama" aria-label="Images drôles du jeu">
+  <div class="diapos">
+    <figure class="diapo active" data-sur="Niveau 6 · Peggy fait des siennes" data-titre="Rendez-nous les frites !" data-texte="Peggy a faim. Peggy court vite. Peggy ne partage pas.">
+      <img src="img/n-piggy.jpg" alt="Peggy la cochonne s'enfuit avec le sac du Big Doubs, poursuivie par John et Mathieu">
+    </figure>
+    <figure class="diapo" data-sur="Niveau 1 · La course au rendez-vous" data-titre="En retard ? Jamais. Enfin… presque." data-texte="Rendez-vous chez Pépé Morbier dans trois minutes. La poubelle n'était pas prévue.">
+      <img src="img/n-parcours.jpg" alt="John saute par-dessus une poubelle renversée dans la rue du village">
+    </figure>
+    <figure class="diapo" data-sur="Niveau 4 · Le permis introuvable" data-titre="Un tampon. Un seul. C'était trop demander ?" data-texte="À la mairie, les papiers volent plus vite que John.">
+      <img src="img/n-mairie.jpg" alt="John court dans la mairie au milieu des papiers qui volent">
+    </figure>
+    <figure class="diapo" data-sur="Niveau 2 · Rallye casse-croûte" data-titre="Le dernier arrivé paie l'addition" data-texte="John et Mathieu, direction le Big Doubs. Lucie compte les points.">
+      <img src="img/n-course-resto.jpg" alt="La voiture de John et le camion de Mathieu sur la ligne de départ">
+    </figure>
+    <figure class="diapo" data-sur="Niveau 5 · Les taupes de Pépé" data-titre="« Pas un seul trou dans ma pelouse ! »" data-texte="Pépé Morbier y tient, à sa pelouse. Les taupes, beaucoup moins.">
+      <img src="img/n-taupes.jpg" alt="John tape les taupes au maillet dans le jardin de Pépé Morbier">
+    </figure>
+    <figure class="diapo" data-sur="Niveau 3 · Bagarre au Big Doubs" data-titre="Le régime ? Lundi. Promis." data-texte="Burgers, frites, hot-dogs : John et Mathieu ne reculent devant rien.">
+      <img src="img/n-restaurant.jpg" alt="John et Mathieu, le ventre énorme, mangent des burgers au Big Doubs">
+    </figure>
+  </div>
+  <div class="film" aria-hidden="true"></div>
+  <img class="logo" src="img/logo.webp" alt="Veranda Quest">
+  <button class="fleche g" type="button" id="prec" aria-label="Image précédente">‹</button>
+  <button class="fleche d" type="button" id="suiv" aria-label="Image suivante">›</button>
+  <div class="legende-zone g">
+    <div class="l">
+      <div class="legende encre">
+        <small id="leg-sur">Niveau 6 · Peggy fait des siennes</small>
+        <h1 id="leg-titre">Rendez-nous les frites !</h1>
+        <p id="leg-texte">Peggy a faim. Peggy court vite. Peggy ne partage pas.</p>
+        <div class="points" id="points"></div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="#jouer">Installer le jeu</a>
+        <a class="btn creme" href="#cinematiques">Voir les cinématiques</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ruban" aria-hidden="true"><div>
+  <span>Client 1 : Pépé Morbier</span><span>9 niveaux complets</span><span>Bêta 0.1 sur téléphone</span><span>Dessin animé façon années 30</span><span>John · Lucie · Mathieu · Peggy</span>
+  <span>Client 1 : Pépé Morbier</span><span>9 niveaux complets</span><span>Bêta 0.1 sur téléphone</span><span>Dessin animé façon années 30</span><span>John · Lucie · Mathieu · Peggy</span>
+</div></div>
+
+<section class="bloc g" id="gazette">
+  <div class="l">
+    <div class="gazette encre">
+      <div class="titre-journal">
+        <strong>La Gazette du Haut-Doubs</strong>
+        <span>Toutes les nouvelles de Veranda Quest · Édition spéciale, encre encore fraîche</span>
+      </div>
+      <div class="colonnes">
+        <article class="une">
+          <img src="img/jeu-route.jpg" alt="La route des neuf niveaux de Pépé Morbier dans le jeu">
+          <span class="etiq">À la une</span>
+          <h3>Fin de l'alpha : le premier client est bouclé !</h3>
+          <p>Les neuf niveaux de Pépé Morbier sont terminés et s'enchaînent avec leurs cinématiques, de la course au rendez-vous jusqu'au retour de Gaston Ferraille. Place à la bêta 0.1.</p>
+        </article>
+        <article>
+          <img src="img/jeu-chef.jpg" alt="Le chef du Big Doubs dans une cinématique">
+          <span class="etiq">Coulisses</span>
+          <h3>Veranda Quest passe au dessin animé</h3>
+          <p>Traits d'encre, couleurs chaudes et vieux papier : tout le jeu est redessiné, façon dessins animés des années 30.</p>
+        </article>
+        <article>
+          <img src="img/jeu-peggy.jpg" alt="Peggy plonge dans le gâteau, cinématique du niveau 6">
+          <span class="etiq">Cinéma</span>
+          <h3>Neuf cinématiques en BD animée</h3>
+          <p>Avant chaque niveau, une petite histoire dessinée raconte la galère du jour. Toutes sont terminées.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bloc g" id="cinematiques" style="padding-top:0">
+  <div class="l">
+    <div class="entete">
+      <div><p class="banniere">Au cinéma</p><h2>Les cinématiques</h2></div>
+      <p class="chapo">Trois extraits des histoires qui ouvrent les niveaux. Monte le son !</p>
+    </div>
+    <div class="cines">
+      <figure class="cine">
+        <div class="ecran"><video controls preload="none" playsinline poster="img/cine-n1.jpg"><source src="media/cine-n1.mp4" type="video/mp4"></video></div>
+        <b>Niveau 1</b><h3>La course au rendez-vous</h3>
+      </figure>
+      <figure class="cine">
+        <div class="ecran"><video controls preload="none" playsinline poster="img/cine-n2.jpg"><source src="media/cine-n2.mp4" type="video/mp4"></video></div>
+        <b>Niveau 2</b><h3>Rallye casse-croûte</h3>
+      </figure>
+      <figure class="cine">
+        <div class="ecran"><video controls preload="none" playsinline poster="img/cine-n9.jpg"><source src="media/cine-n9.mp4" type="video/mp4"></video></div>
+        <b>Niveau 9</b><h3>Gaston Ferraille contre-attaque</h3>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="bloc g fond-carton" id="niveaux">
+  <div class="l">
+    <div class="entete">
+      <div><p class="banniere">Le jeu</p><h2>Un client, neuf galères</h2></div>
+      <p class="chapo">John vend des vérandas. Pour signer un client, il doit survivre à neuf niveaux tous différents : course, rallye, bagarre, paperasse, taupes et boss final.</p>
+    </div>
+    <div class="client">
+      <div class="portrait encre"><img src="img/p-pepe.jpg" alt="Pépé Morbier, casquette, moustache et bretelles"></div>
+      <div class="fiche">
+        <small>Client n° 1</small>
+        <h3>Pépé Morbier</h3>
+        <p>Il veut une véranda. Il a aussi une pelouse parfaite, une cochonne très gourmande et un avis sur tout. Les clients suivants arrivent avec les prochaines mises à jour. Toutes les images ci-dessous viennent du jeu.</p>
+      </div>
+    </div>
+    <ol class="niveaux">
+      <li class="niveau encre"><span class="num">1</span><div class="photo"><img src="img/jeu-n1.jpg" alt=""></div><h3>La course au rendez-vous</h3><p>Courir, sauter, et arriver avant le concurrent.</p></li>
+      <li class="niveau encre"><span class="num">2</span><div class="photo"><img src="img/jeu-n2.jpg" alt=""></div><h3>Rallye casse-croûte</h3><p>La voiture de John contre le camion de Mathieu.</p></li>
+      <li class="niveau encre"><span class="num">3</span><div class="photo"><img src="img/jeu-n3.jpg" alt=""></div><h3>Bagarre au Big Doubs</h3><p>Le chef du fast-food n'aime pas qu'on se plaigne.</p></li>
+      <li class="niveau encre"><span class="num">4</span><div class="photo"><img src="img/jeu-n4.jpg" alt=""></div><h3>Le permis introuvable</h3><p>Une mairie, des courants d'air et beaucoup trop de papiers.</p></li>
+      <li class="niveau encre"><span class="num">5</span><div class="photo"><img src="img/jeu-n5.jpg" alt=""></div><h3>Les taupes de Pépé</h3><p>Un maillet, une pelouse, et des taupes qui narguent.</p></li>
+      <li class="niveau encre"><span class="num">6</span><div class="photo"><img src="img/jeu-n6.jpg" alt=""></div><h3>Peggy fait des siennes</h3><p>Rattraper la cochonne avant qu'elle finisse les frites.</p></li>
+      <li class="niveau encre"><span class="num">7</span><div class="photo"><img src="img/jeu-n7.jpg" alt=""></div><h3>Livraison de haut vol</h3><p>Les matériaux arrivent… par la voie des airs.</p></li>
+      <li class="niveau encre"><span class="num">8</span><div class="photo"><img src="img/jeu-n8.jpg" alt=""></div><h3>La pose et les gamins</h3><p>Poser une véranda avec deux voisins très curieux.</p></li>
+      <li class="niveau encre"><span class="num">9</span><div class="photo"><img src="img/jeu-n9.jpg" alt=""></div><h3>Gaston Ferraille contre-attaque</h3><p>Le concurrent revient. Cette fois, c'est le boss final.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="bloc g" id="personnages">
+  <div class="l">
+    <div class="entete">
+      <div><p class="banniere">La troupe</p><h2>Les personnages</h2></div>
+      <p class="chapo">Une équipe au service de vos projets. En théorie.</p>
+    </div>
+    <div class="troupe">
+      <article class="perso encre"><div class="cadre-img"><img src="img/p-john.jpg" alt="John, chemise blanche, jean et lunettes"></div><span class="role">Le commercial</span><h3>John</h3><p>Il vend des vérandas. Enfin… il essaie.</p></article>
+      <article class="perso encre"><div class="cadre-img"><img src="img/p-lucie.jpg" alt="Lucie, chemisier blanc et pantalon beige"></div><span class="role">L'assistante</span><h3>Lucie</h3><p>Elle gère les dossiers, les rendez-vous, et surtout John.</p></article>
+      <article class="perso encre"><div class="cadre-img"><img src="img/p-mathieu.jpg" alt="Mathieu, t-shirt gris et ceinture à outils"></div><span class="role">Le techos</span><h3>Mathieu</h3><p>Toujours une solution, et toujours le premier à rire.</p></article>
+      <article class="perso encre"><div class="cadre-img"><img src="img/p-peggy.jpg" alt="Peggy, petite cochonne rose avec un nœud"></div><span class="role">La cochonne</span><h3>Peggy</h3><p>Adorable. Affamée. Rapide. Dans cet ordre.</p></article>
+      <article class="perso encre"><div class="cadre-img"><img src="img/p-pepe.jpg" alt="Pépé Morbier"></div><span class="role">Le client</span><h3>Pépé Morbier</h3><p>Il signera. Peut-être. Après la pelouse.</p></article>
+      <article class="perso encre"><div class="cadre-img"><img src="img/p-boss.jpg" alt="Le boss, chemise rouge à fleurs, bras croisés"></div><span class="role">Le patron</span><h3>Le Boss</h3><p>Il veut des chiffres. Et il les veut pour hier.</p></article>
+      <article class="perso encre mechant"><div class="cadre-img"><img src="img/p-gaston.jpg" alt="Gaston Ferraille"></div><span class="role">Le concurrent</span><h3>Gaston Ferraille</h3><p>Costume violet, sourire en coin, devis toujours moins cher.</p></article>
+      <article class="perso encre texte"><span class="role">Et bientôt…</span><h3>D'autres têtes</h3><p>Chef cuisinier, serveuse, maire, secrétaire, chiens et gamins : toute la galerie arrive avec les niveaux.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="bloc g fond-carton" id="jouer">
+  <div class="l">
+    <div class="entete">
+      <div><p class="banniere">Télécharger</p><h2>Installe le jeu sur ton téléphone</h2></div>
+      <p class="chapo">Pas besoin de store : Veranda Quest s'installe directement depuis le navigateur, en 30 secondes. Il se met à jour tout seul.</p>
+    </div>
+    <div class="installer">
+      <div class="lancer encre">
+        <img src="img/jeu-titre.jpg" alt="Écran titre du jeu sur téléphone">
+        <div class="corps">
+          <span class="tampon vif">Bêta 0.1</span>
+          <h3>Veranda Quest</h3>
+          <p>Gratuit · Téléphone en portrait · Android et iPhone</p>
+          <a class="btn" href="https://johnbartx.github.io/veranda-quest-web/" target="_blank" rel="noopener">Ouvrir le jeu</a>
+          <small>Pendant la bêta, le jeu est réservé aux testeurs.</small>
+        </div>
+      </div>
+      <div class="notice encre">
+        <div class="onglets" role="tablist" aria-label="Choisis ton téléphone">
+          <button type="button" role="tab" id="tab-iphone" aria-selected="true" aria-controls="pan-iphone">iPhone</button>
+          <button type="button" role="tab" id="tab-android" aria-selected="false" aria-controls="pan-android">Android</button>
+        </div>
+        <div class="panneau" role="tabpanel" id="pan-iphone" aria-labelledby="tab-iphone">
+          <ol class="etapes">
+            <li><b>Ouvre le jeu dans Safari.</b><span>Avec le bouton « Ouvrir le jeu ». Il faut Safari, pas une autre appli.</span></li>
+            <li><b>Touche le bouton Partager.</b><span>Le carré avec une flèche vers le haut, en bas de l'écran.</span></li>
+            <li><b>Choisis « Sur l'écran d'accueil ».</b><span>Fais défiler la liste vers le bas si tu ne le vois pas.</span></li>
+            <li><b>Touche « Ajouter ».</b><span>L'icône Veranda Quest apparaît avec tes applis. Le jeu s'ouvre en plein écran.</span></li>
+          </ol>
+        </div>
+        <div class="panneau" role="tabpanel" id="pan-android" aria-labelledby="tab-android" hidden>
+          <ol class="etapes">
+            <li><b>Ouvre le jeu dans Chrome.</b><span>Avec le bouton « Ouvrir le jeu ».</span></li>
+            <li><b>Touche les trois points ⋮.</b><span>En haut à droite de l'écran.</span></li>
+            <li><b>Choisis « Installer l'application ».</b><span>Sur certains téléphones, c'est « Ajouter à l'écran d'accueil ».</span></li>
+            <li><b>Confirme avec « Installer ».</b><span>L'icône Veranda Quest apparaît avec tes applis. Le jeu s'ouvre en plein écran.</span></li>
+          </ol>
+        </div>
+        <ul class="astuces">
+          <li>Tiens ton téléphone en portrait.</li>
+          <li>Au lancement, touche l'écran pour avoir le son.</li>
+          <li>Les mises à jour arrivent toutes seules à l'ouverture du jeu.</li>
+        </ul>
+        <p class="bientot">Sur le Play Store et l'App Store : plus tard, après la bêta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bloc g" id="histoire">
+  <div class="l">
+    <div class="entete">
+      <div><p class="banniere">Les coulisses</p><h2>L'histoire du jeu</h2></div>
+      <p class="chapo">De la première idée à la bêta, les grandes étapes de Veranda Quest.</p>
+    </div>
+    <ol class="frise">
+      <li><h3>L'idée</h3><p>Un commercial en vérandas devient le héros d'un jeu vidéo, avec son assistante et son technicien.</p></li>
+      <li><h3>Les premiers essais en 3D</h3><p>Des personnages en 3D et un village du Haut-Doubs en panorama, façon jeu de plateforme.</p></li>
+      <li><h3>Le logo et le showroom</h3><p>Le panneau en bois, le mètre, la perceuse : Veranda Quest trouve son visage.</p></li>
+      <li><h3>Un client, neuf niveaux</h3><p>Chaque client devient une aventure de neuf jeux tous différents, jusqu'au boss final.</p></li>
+      <li class="cle"><h3>Le grand virage : le dessin animé</h3><p>Tout est redessiné à l'encre, façon dessins animés des années 30. Le jeu change d'allure pour de bon.</p></li>
+      <li><h3>Le téléphone d'abord</h3><p>Le jeu se joue en portrait, d'une main, avec les boutons à l'écran.</p></li>
+      <li><h3>Les cinématiques en BD</h3><p>Une petite histoire dessinée ouvre chaque niveau, de l'entretien d'embauche au retour de Gaston Ferraille.</p></li>
+      <li><h3>Musique, gags et bêtisier</h3><p>Des bruitages partout, des grimaces, et un bêtisier quand on perd.</p></li>
+      <li><h3>Les scores entre potes</h3><p>On compare ses étoiles avec ses amis et avec tout le monde.</p></li>
+      <li class="cle"><h3>Fin de l'alpha</h3><p>Pépé Morbier, le premier client, est bouclé : neuf niveaux qui s'enchaînent.</p></li>
+      <li class="cle"><h3>La bêta</h3><p>Les premiers testeurs jouent. Prochaine étape : le client n° 2, puis les stores.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="bloc g" id="goodies">
+  <div class="l">
+    <div class="entete">
+      <div><p class="banniere">La boutique</p><h2>Les goodies</h2></div>
+      <p class="chapo">De quoi afficher ton amour des vérandas. La boutique ouvre avec la sortie du jeu.</p>
+    </div>
+    <div class="boutique">
+      <article class="objet encre">
+        <div class="vitrine"><img src="img/p-peggy.jpg" alt="Peggy"></div>
+        <h3>Peluche Peggy</h3><p>Toute douce, nœud rose compris. Ne mange pas les frites (normalement).</p>
+        <div class="bas"><span>Bientôt</span><button class="btn petit bleu" type="button" data-prevenir>Me prévenir</button></div>
+      </article>
+      <article class="objet encre">
+        <div class="vitrine"><svg viewBox="0 0 120 120"><path d="M38 20 20 30l-10 22 16 8 6-10v56h56V50l6 10 16-8-10-22-18-10c-4 8-12 12-22 12s-18-4-22-12z" fill="#a9a59c" stroke="#2b1d13" stroke-width="3" stroke-linejoin="round"/><path d="M52 50h16v12H52z" fill="#2f5c9c" stroke="#2b1d13" stroke-width="2"/><path d="M48 52l12-10 12 10" fill="none" stroke="#2b1d13" stroke-width="2.5"/></svg></div>
+        <h3>T-shirt de Mathieu</h3><p>Le t-shirt gris de l'équipe, logo maison sur le cœur.</p>
+        <div class="bas"><span>Bientôt</span><button class="btn petit bleu" type="button" data-prevenir>Me prévenir</button></div>
+      </article>
+      <article class="objet encre">
+        <div class="vitrine"><svg viewBox="0 0 120 120"><rect x="26" y="36" width="54" height="60" rx="6" fill="#fff8e8" stroke="#2b1d13" stroke-width="3"/><path d="M80 50h8a12 12 0 0 1 0 24h-8" fill="none" stroke="#2b1d13" stroke-width="3"/><path d="M42 24c0 6 6 6 6 12M56 22c0 6 6 6 6 12" stroke="#2b1d13" stroke-width="3" fill="none" stroke-linecap="round"/><text x="53" y="72" text-anchor="middle" font-family="Luckiest Guy,Arial Black" font-size="15" fill="#e2711d" stroke="#2b1d13" stroke-width=".8">QUEST</text></svg></div>
+        <h3>Mug « Le café de Lucie »</h3><p>Pour tenir jusqu'au prochain rendez-vous client.</p>
+        <div class="bas"><span>Bientôt</span><button class="btn petit bleu" type="button" data-prevenir>Me prévenir</button></div>
+      </article>
+      <article class="objet encre">
+        <div class="vitrine"><svg viewBox="0 0 120 120"><circle cx="54" cy="60" r="34" fill="#f4ae24" stroke="#2b1d13" stroke-width="3.5"/><circle cx="54" cy="60" r="12" fill="#2b1d13"/><rect x="84" y="70" width="28" height="13" fill="#f4ae24" stroke="#2b1d13" stroke-width="3"/><path d="M90 70v13M96 70v7M102 70v13M108 70v7" stroke="#2b1d13" stroke-width="2"/></svg></div>
+        <h3>Mètre ruban officiel</h3><p>Le mètre jaune du logo. Indispensable pour le métré.</p>
+        <div class="bas"><span>Bientôt</span><button class="btn petit bleu" type="button" data-prevenir>Me prévenir</button></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="bloc g" id="newsletter" style="padding-top:0">
+  <div class="l">
+    <div class="inscription encre">
+      <img src="img/jeu-signature.jpg" alt="" style="object-position:50% 40%">
+      <div class="corps">
+        <p class="banniere" style="align-self:flex-start">Nouvelles fraîches</p>
+        <h2 style="font-size:clamp(30px,4vw,44px)">Ne rate aucun nouveau client</h2>
+        <p class="chapo">Nouveaux niveaux, ouverture de la bêta et goodies : reçois les annonces dès leur sortie.</p>
+        <form id="form-inscription">
+          <label for="courriel" class="cache">Adresse e-mail</label>
+          <input id="courriel" name="courriel" type="email" placeholder="ton@email.fr" required autocomplete="email">
+          <button class="btn" type="submit">Je m'inscris</button>
+        </form>
+        <p class="reponse" id="reponse" hidden>Merci ! L'inscription sera active à la mise en ligne du site.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="g">
+  <div class="l">
+    <div class="studio"><img src="img/studio.jpg" alt="JM Bolt Studio"><span>Un jeu <a href="https://jmboltstudio.com">JM Bolt Studio</a> · © 2026 · Hébergé par GitHub Pages · contact@jmboltstudio.com</span></div>
+    <nav>
+      <a href="#gazette">La Gazette</a>
+      <a href="#niveaux">Les niveaux</a>
+      <a href="#jouer">Télécharger</a>
+      <a href="#histoire">L'histoire</a>
+      <a href="#goodies">Goodies</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const diapos=[...document.querySelectorAll('.diapo')];
+  const points=document.getElementById('points');
+  const sur=document.getElementById('leg-sur'), titre=document.getElementById('leg-titre'), texte=document.getElementById('leg-texte');
+  const calme=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i=0, minuterie=null;
+  diapos.forEach((d,n)=>{
+    const b=document.createElement('button');
+    b.type='button'; b.setAttribute('aria-label','Image '+(n+1));
+    b.addEventListener('click',()=>{montrer(n);relancer();});
+    points.appendChild(b);
+  });
+  function montrer(n){
+    i=(n+diapos.length)%diapos.length;
+    diapos.forEach((d,k)=>d.classList.toggle('active',k===i));
+    [...points.children].forEach((b,k)=>b.setAttribute('aria-current',k===i?'true':'false'));
+    sur.textContent=diapos[i].dataset.sur; titre.textContent=diapos[i].dataset.titre; texte.textContent=diapos[i].dataset.texte;
+  }
+  function relancer(){ if(calme) return; clearInterval(minuterie); minuterie=setInterval(()=>montrer(i+1),6500); }
+  document.getElementById('prec').addEventListener('click',()=>{montrer(i-1);relancer();});
+  document.getElementById('suiv').addEventListener('click',()=>{montrer(i+1);relancer();});
+  montrer(0); relancer();
+
+
+  const tabs=[...document.querySelectorAll('.onglets [role=tab]')];
+  tabs.forEach(t=>t.addEventListener('click',()=>{tabs.forEach(u=>{const on=u===t;u.setAttribute('aria-selected',on);document.getElementById(u.getAttribute('aria-controls')).hidden=!on;});}));
+  if(/android/i.test(navigator.userAgent)) document.getElementById('tab-android').click();
+  document.getElementById('form-inscription').addEventListener('submit',e=>{e.preventDefault();document.getElementById('reponse').hidden=false;});
+  document.querySelectorAll('[data-prevenir]').forEach(b=>b.addEventListener('click',()=>{
+    document.getElementById('newsletter').scrollIntoView({behavior:calme?'auto':'smooth'});
+    document.getElementById('courriel').focus({preventScroll:true});
+  }));
+})();
+</script>
+
+</body>
+</html>
